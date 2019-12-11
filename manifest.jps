@@ -8,7 +8,7 @@
     "categories": [
       "apps/dev-and-admin-tools"
     ],
-    "version": "1.0",
+    "version": "1.1",
     "homepage": "https://github.com/jelastic-jps/packages-installer",
     "logo": "https://github.com/jelastic-jps/packages-installer/raw/master/images/rpm-logo.png",
     "description": {
@@ -52,6 +52,20 @@
             }
           }
         ]
+      },
+      {
+        "id": "updatePackage",
+        "onCall": [
+          {
+            "cmd": {
+              "commands": [
+                "yum update -y ${this.packageUpdate}"
+              ],
+              "nodeType": "${targetNodes[0].nodeType}",
+              "user": "root"
+            }
+          }
+        ]
       }
     ],
     "menu": [
@@ -70,6 +84,14 @@
         "caption": "Remove package",
         "procedure": "removePackage",
         "successText": "The package has been successfully removed"
+      },
+      {
+        "confirmText": "Update package",
+        "settings": "packageUpdate",
+        "loadingText": "Updating package...",
+        "caption": "Update package",
+        "procedure": "updatePackage",
+        "successText": "The package has been successfully updated"
       }
     ],
     "settings": {
@@ -103,6 +125,23 @@
             "caption": "Instruction:",
             "type": "displayfield",
             "markup": "To remove a package, specify its name in the box above. For several entries, use space as a separator.",
+            "required": true
+          }
+        ]
+      },
+      "packageUpdate": {
+        "fields": [
+          {
+            "regexText": "Incorrect package name.",
+            "name": "packageUpdate",
+            "caption": "Package:",
+            "type": "string",
+            "required": true
+          },
+          {
+            "caption": "Instruction:",
+            "type": "displayfield",
+            "markup": "To update a package, specify its name in the box above. For several entries, use space as a separator.",
             "required": true
           }
         ]
